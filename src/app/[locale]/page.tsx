@@ -4,8 +4,6 @@ import { Heading, Flex, Text, Button,  Avatar, RevealFx } from '@/once-ui/compon
 import { Projects } from '@/components/work/Projects';
 
 import { baseURL, routes, renderContent } from '@/app/resources'; 
-import { Mailchimp } from '@/components';
-import { Posts } from '@/components/blog/Posts';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import { useTranslations } from 'next-intl';
 
@@ -47,7 +45,7 @@ export default function Home(
 ) {
 	unstable_setRequestLocale(locale);
 	const t = useTranslations();
-	const { home, about, person, newsletter } = renderContent(t);
+	const { home } = renderContent(t);
 	return (
 		<Flex
 			maxWidth="m" fillWidth gap="xl"
@@ -63,14 +61,6 @@ export default function Home(
 						description: home.description,
 						url: `https://${baseURL}`,
 						image: `${baseURL}/og?title=${encodeURIComponent(home.title)}`,
-						publisher: {
-							'@type': 'Person',
-							name: person.name,
-							image: {
-								'@type': 'ImageObject',
-								url: `${baseURL}${person.avatar}`,
-							},
-						},
 					}),
 				}}
 			/>
@@ -96,41 +86,13 @@ export default function Home(
 								{home.subline}
 							</Text>
 						</RevealFx>
-						<RevealFx translateY="12" delay={0.4}>
-							<Button
-								data-border="rounded"
-								href={`/${locale}/about`}
-								variant="tertiary"
-								suffixIcon="chevronRight"
-								size="m">
-								<Flex
-									gap="8"
-									alignItems="center">
-									{about.avatar.display && (
-										<Avatar
-											style={{marginLeft: '-0.75rem', marginRight: '0.25rem'}}
-											src={person.avatar}
-											size="m"/>
-										)}
-										{t("about.title")}
-								</Flex>
-							</Button>
-						</RevealFx>
 					</Flex>
 				
 			</Flex>
 			<RevealFx translateY="16" delay={0.6}>
 				<Projects range={[1,1]} locale={locale}/>
 			</RevealFx>
-			{routes['/blog'] && (
-				<Flex fillWidth paddingX="20">
-					<Posts range={[1,2]} columns="2" locale={locale}/>
-				</Flex>
-			)}
 			<Projects range={[2]} locale={locale}/>
-			{ newsletter.display &&
-				<Mailchimp newsletter={newsletter} />
-			}
 		</Flex>
 	);
 }

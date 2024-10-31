@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { marked } from 'marked';
 
 type Team = {
     name: string;
@@ -37,7 +38,7 @@ function readMDXFile(filePath: string) {
     const metadata: Metadata = {
         title: data.title || '',
         publishedAt: data.publishedAt,
-        summary: data.summary || '',
+        summary: data.summary ? marked(data.summary) : '',
         images: data.images || [],
         team: data.team || [],
     };

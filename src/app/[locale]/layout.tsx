@@ -118,10 +118,9 @@ export default async function RootLayout({
 						fillWidth
 						minHeight="16">
 					</Flex>
-					<Header/>
 					<Flex
 						zIndex={0}
-						fillWidth paddingY="l" paddingX="l"
+						fillWidth paddingY="s" paddingX="l"
 						justifyContent="center" flex={1}>
 						<Flex
 							justifyContent="center"

@@ -26,26 +26,15 @@ export const Footer = () => {
                         © {currentYear} /
                     </Text>
                     <Text paddingX="4">
-                        {person.name}
+                        CommunIKEA
                     </Text>
                     <Text onBackground="neutral-weak">
                         {/* Usage of this template requires attribution. Please don't remove the link to Once UI. */}
-                        / Build your portfolio with <SmartLink style={{marginLeft: '-0.125rem'}} href="https://once-ui.com/templates/magic-portfolio">Once UI</SmartLink>
+                        / <SmartLink style={{marginLeft: '-0.125rem'}} href="https://once-ui.com/">Once UI</SmartLink>
                     </Text>
                 </Text>
                 <Flex
                     gap="16">
-                    {social.map((item) => (
-                        item.link && (
-                            <IconButton
-                                key={item.name}
-                                href={item.link}
-                                icon={item.icon}
-                                tooltip={item.name}
-                                size="s"
-                                variant="ghost"/>
-                        )
-                    ))}
                 </Flex>
             </Flex>
         </Flex>

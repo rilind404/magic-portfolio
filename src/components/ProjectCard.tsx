@@ -3,6 +3,7 @@
 import { AvatarGroup, Flex, Heading, RevealFx, SmartImage, SmartLink, Text } from "@/once-ui/components";
 import { useEffect, useState } from "react";
 import { useTranslations } from 'next-intl';
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa6"; // Import both chevrons
 
 interface ProjectCardProps {
     href: string;
@@ -23,6 +24,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const [isHoveredRight, setIsHoveredRight] = useState(false); // State for right hover effect
+    const [isHoveredLeft, setIsHoveredLeft] = useState(false); // State for left hover effect
 
     const t = useTranslations();
 
@@ -34,12 +37,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         return () => clearTimeout(timer);
     }, []);
 
-    const handleImageClick = () => {
+    const handleImageClick = (direction: 'left' | 'right') => {
         if(images.length > 1) {
             setIsTransitioning(false);
-            const nextIndex = (activeIndex + 1) % images.length;
+            const nextIndex = direction === 'right'
+                ? (activeIndex + 1) % images.length
+                : (activeIndex - 1 + images.length) % images.length;
             handleControlClick(nextIndex);
-
         }
     };
 
@@ -57,9 +61,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         <Flex
             fillWidth gap="m"
             direction="column">
-            <Flex onClick={handleImageClick}>
-            <RevealFx
-                    style={{width: '100%'}}
+            <Flex position="relative" style={{ width: '100%' }}>
+                <RevealFx
+                    style={{ width: '100%' }}
                     delay={0.4}
                     trigger={isTransitioning}
                     speed="fast">
@@ -76,6 +80,46 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                             }),
                         }}/>
                 </RevealFx>
+                {images.length > 1 && (
+                    <>
+                        <FaChevronLeft
+                            size="24px"
+                            color="white"
+                            onMouseEnter={() => setIsHoveredLeft(true)}
+                            onMouseLeave={() => setIsHoveredLeft(false)}
+                            onClick={() => handleImageClick('left')}
+                            style={{
+                                position: 'absolute',
+                                left: '16px',
+                                top: '50%',
+                                transform: isHoveredLeft ? 'translateY(-50%) scale(1.1)' : 'translateY(-50%)',
+                                cursor: 'pointer',
+                                opacity: isHoveredLeft ? 1 : 0.7,
+                                transition: 'opacity 0.2s ease, transform 0.2s ease',
+                                borderRadius: '40px',
+                                backgroundColor: isHoveredLeft ? 'black' : ''
+                            }}
+                        />
+                        <FaChevronRight
+                            size="24px"
+                            color="white"
+                            onMouseEnter={() => setIsHoveredRight(true)}
+                            onMouseLeave={() => setIsHoveredRight(false)}
+                            onClick={() => handleImageClick('right')}
+                            style={{
+                                position: 'absolute',
+                                right: '16px',
+                                top: '50%',
+                                transform: isHoveredRight ? 'translateY(-50%) scale(1.1)' : 'translateY(-50%)',
+                                cursor: 'pointer',
+                                opacity: isHoveredRight ? 1 : 0.7,
+                                transition: 'opacity 0.2s ease, transform 0.2s ease',
+                                borderRadius: '40px',
+                                backgroundColor: isHoveredRight ? 'black' : ''
+                            }}
+                        />
+                    </>
+                )}
             </Flex>
             {images.length > 1 && (
                 <Flex
@@ -130,17 +174,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                                 onBackground="neutral-weak">
                                 {description}
                             </Text>
-                        )}
-                        {content?.trim() && (
-                            <SmartLink
-                                suffixIcon="chevronRight"
-                                style={{margin: '0', width: 'fit-content'}}
-                                href={href}>
-                                    <Text
-                                        variant="body-default-s">
-                                       {t("projectCard.label")}
-                                    </Text>
-                            </SmartLink>
                         )}
                     </Flex>
                 )}

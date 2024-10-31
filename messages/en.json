@@ -60,22 +60,9 @@
             }
         }
     },
-    "blog": {
-        "label": "Blog",
-        "title": "Writing about design and tech...",
-        "description": "Read what {name} has been up to recently"
-    },
     "work": {
         "label": "Work",
         "title": "My projects",
         "description": "Design and dev projects by {name}"
-    },
-    "gallery": {
-        "label": "Gallery",
-        "title": "My photo gallery",
-        "description": "A photo collection by {name}"
-    },
-    "projectCard": {
-        "label": "Read Case Study"
     }
 }

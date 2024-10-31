@@ -73,24 +73,6 @@ export default function About(
             <script
                 type="application/ld+json"
                 suppressHydrationWarning
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        '@context': 'https://schema.org',
-                        '@type': 'Person',
-                        name: person.name,
-                        jobTitle: person.role,
-                        description: about.intro.description,
-                        url: `https://${baseURL}/about`,
-                        image: `${baseURL}/images/${person.avatar}`,
-                        sameAs: social
-                            .filter((item) => item.link && !item.link.startsWith('mailto:')) // Filter out empty links and email links
-                            .map((item) => item.link),
-                        worksFor: {
-                            '@type': 'Organization',
-                            name: about.work.experiences[0].company || ''
-                        },
-                    }),
-                }}
             />
             { about.tableOfContent.display && (
                 <Flex
@@ -106,36 +88,7 @@ export default function About(
             <Flex
                 fillWidth
                 mobileDirection="column" justifyContent="center">
-                { about.avatar.display && (
-                    <Flex
-                        minWidth="160" paddingX="l" paddingBottom="xl" gap="m"
-                        flex={3} direction="column" alignItems="center">
-                        <Avatar
-                            src={person.avatar}
-                            size="xl"/>
-                        <Flex
-                            gap="8"
-                            alignItems="center">
-                            <Icon
-                                onBackground="accent-weak"
-                                name="globe"/>
-                            {person.location}
-                        </Flex>
-                        { person.languages.length > 0 && (
-                            <Flex
-                                wrap
-                                gap="8">
-                                {person.languages.map((language, index) => (
-                                    <Tag
-                                        key={index}
-                                        size="l">
-                                        {language}
-                                    </Tag>
-                                ))}
-                            </Flex>
-                        )}
-                    </Flex>
-                )}
+
                 <Flex
                     className={styles.blockAlign}
                     fillWidth flex={9} maxWidth={40} direction="column">
@@ -182,23 +135,6 @@ export default function About(
                             onBackground="neutral-weak">
                             {person.role}
                         </Text>
-                        {social.length > 0 && (
-                            <Flex
-                                className={styles.blockAlign}
-                                paddingTop="20" paddingBottom="8" gap="8" wrap>
-                                {social.map((item) => (
-                                    item.link && (
-                                        <Button
-                                            key={item.name}
-                                            href={item.link}
-                                            prefixIcon={item.icon}
-                                            label={item.name}
-                                            size="s"
-                                            variant="tertiary"/>
-                                    )
-                                ))}
-                            </Flex>
-                        )}
                     </Flex>
 
                     { about.intro.display && (
